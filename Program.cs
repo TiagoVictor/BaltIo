@@ -2,7 +2,7 @@
 
 pagamentoBoleto.Pagar();
 pagamentoBoleto.Vencimento = new DateTime ();
-pagamentoBoleto.NumeroBoleto = "1234";
+//pagamentoBoleto.NumeroBoleto = "1234";
 
 var pagamento = new Pagamento();
 pagamento.Pagar();
@@ -13,11 +13,20 @@ Console.WriteLine(pagamento.ToString());
 var pagamentoCartaoCredito = new PagamentoCartaoCredito();
 pagamentoCartaoCredito.NumeroCartaoCredito = "1234";
 
-Console.WriteLine("Hello, World!");
 
-class Pagamento
+var pessoaA = new Person(1, "Tiago V");
+var pessoaB = new Person(1, "Tiago V");
+
+Console.WriteLine(pessoaA.Equals(pessoaB));
+
+class Pagamento : IDisposable
 {
     public DateTime Vencimento { get; set; }
+
+    public void Dispose()
+    {
+        throw new NotImplementedException();
+    }
 
     public virtual void Pagar(){}
 
@@ -29,7 +38,7 @@ class Pagamento
 
 class PagamentoBoleto : Pagamento
 {
-    public string NumeroBoleto { get; set; }
+    private string NumeroBoleto { get; set; }
 
     public override void Pagar()
     {
@@ -37,12 +46,48 @@ class PagamentoBoleto : Pagamento
     }
 }
 
-class PagamentoCartaoCredito : Pagamento
-{
+class PagamentoCartaoCredito : IPagamento
+{    
     public string NumeroCartaoCredito { get; set; }
 
-    public override void Pagar()
+    public void Pagar(double valor)
     {
-        // Regra pagar Cartão de Crédito
+        throw new NotImplementedException();
     }
+}
+
+public class Person : IEquatable<Person>
+{
+    public Person(int id, string name)
+    {
+        Id = id;
+        Name = name;
+    }
+    public int Id { get; set; }
+     public string Name { get; set; }
+
+    public bool Equals(Person? other)
+    {
+        return Id == other.Id;
+    }
+}
+
+public class Personal : Person
+{
+    public Personal(int id, string nome): base(id, nome)
+    {
+        Id = id;
+        Name = nome;
+    }
+    public string CPF { get; set; }
+}
+
+public class Corporate : Person
+{
+    public Corporate(int id, string nome) : base(id, nome)
+    {
+        Id =id;
+        Name = nome;
+    }
+    public string CNPJ { get; set; }
 }
