@@ -19,6 +19,14 @@ var pessoaB = new Person(1, "Tiago V");
 
 Console.WriteLine(pessoaA.Equals(pessoaB));
 
+var pagar = new Pagamento.PagarMe(RealizarPagamento);
+pagar(25);
+
+static void RealizarPagamento(double valor)
+{
+    Console.WriteLine($"Pago o valor de: {valor}");
+}
+
 class Pagamento : IDisposable
 {
     public DateTime Vencimento { get; set; }
@@ -29,6 +37,8 @@ class Pagamento : IDisposable
     }
 
     public virtual void Pagar(){}
+
+    public delegate void PagarMe(double valor);
 
     public override string ToString()
     {
